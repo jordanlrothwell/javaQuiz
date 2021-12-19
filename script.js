@@ -38,7 +38,7 @@ var question2 = {
 };
 
 var question3 = {
-  question: "oooooooooh",
+  question: "this is another question",
   options: ["boiiiiiiii", "noooooo", "my gawd"],
   correct: 2,
 };
@@ -49,7 +49,7 @@ var question4 = {
   correct: 1,
 };
 
-var questions = [question1, question2, question3, question4, 2, 5, 7];
+var questions = [question1, question2, question3, question4];
 
 // Getting elements from the doc
 var questionEl = document.getElementById("question");
@@ -66,73 +66,37 @@ var yetToBeChosen = [];
 
 // Initialise array of indexes for every question in our question bank
 
-var initialiseYetToBeChosen = function() {
-    for (var i = 0; i < questions.length; i++) {
-        yetToBeChosen = yetToBeChosen.concat(i)
-    }
-}
+var initialiseYetToBeChosen = function () {
+  for (var i = 0; i < questions.length; i++) {
+    yetToBeChosen = yetToBeChosen.concat(i);
+  }
+};
 
 // Function to choose index for given array
 
 var chooseRandom = function (arr) {
-    return Math.floor(Math.random() * arr.length);
-  };
+  return Math.floor(Math.random() * arr.length);
+};
 
 initialiseYetToBeChosen();
-console.log(yetToBeChosen)
 
-var nextQuestion = function() {
-    var choice = chooseRandom(yetToBeChosen);
-    if (currentQuestion.length !== 0) {
-        alreadyChosen.push(currentQuestion[0]);
-    }
-    currentQuestion.pop()
-    currentQuestion.push(yetToBeChosen[choice]);
-    yetToBeChosen.splice(choice, 1);
-}
-
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-nextQuestion()
-console.log("alreadyChosen = " + alreadyChosen)
-console.log("currentQuestion = " + currentQuestion)
-console.log("yetToBeChosen = " + yetToBeChosen)
-
-// Defining functions
-
-var setQuestionText = function (Q) {
-  questionEl.textContent = Q.question;
+// Moves indexes between arrays
+var nextQuestion = function () {
+  var choice = chooseRandom(yetToBeChosen);
+  if (currentQuestion.length !== 0) {
+    alreadyChosen.push(currentQuestion[0]);
+  }
+  if (yetToBeChosen === 0) {
+    return;
+  }
+  currentQuestion.pop();
+  currentQuestion.push(yetToBeChosen[choice]);
+  yetToBeChosen.splice(choice, 1);
 };
+
+var setText = function(Q) {
+    questionEl.textContent = questions[Q].question
+}
 
 var setOptionsText = function (Q) {
   for (var i = 0; i < Q.options.length; i++) {
@@ -142,3 +106,12 @@ var setOptionsText = function (Q) {
     document.getElementById("optionList").appendChild(newListElement);
   }
 };
+
+startButton.addEventListener("click", function()
+{
+    nextQuestion();
+    console.log("alreadyChosen = " + alreadyChosen);
+    console.log("currentQuestion = " + currentQuestion);
+    console.log("yetToBeChosen = " + yetToBeChosen);
+    setText(currentQuestion)
+}) 
