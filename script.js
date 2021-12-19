@@ -23,16 +23,32 @@
 // Score
     // Persists between sessions
 
-var multipleChoiceQuestion = document.getElementById("question");
-var multipleChoiceAnswer = document.getElementById("answer");
+var questionEl = document.getElementById("question");
+var optionsEl = document.getElementById("options");
+var optionListEl = document.getElementById("optionList")
 
 
 const question1 = {
     question: "is this a functioning object?",
-    answers: ["yes", "no"],
+    options: ["yes", "no"],
     correct: 0
 }
 
-multipleChoiceQuestion.textContent = question1.question
+const question2 = {
+    question: "how about this one",
+    options: ["yeeeeees", "noooooooooo"],
+    correct: 0
+}
 
-multipleChoiceAnswer.textContent = question1.answers
+questionEl.textContent = question1.question
+
+let questionAppender = function(chosenQuestion) {
+    for (var i = 0; i < chosenQuestion.options.length; i++) {
+        var newListElement = document.createElement("li");
+        var optionText = document.createTextNode(chosenQuestion.options[i]);
+        newListElement.appendChild(optionText);
+        document.getElementById("optionList").appendChild(newListElement)
+    }
+}
+
+questionAppender(question2)
