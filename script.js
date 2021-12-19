@@ -110,8 +110,13 @@ var setOptionsText = function (Q) {
 startButton.addEventListener("click", function()
 {
     nextQuestion();
-    console.log("alreadyChosen = " + alreadyChosen);
-    console.log("currentQuestion = " + currentQuestion);
-    console.log("yetToBeChosen = " + yetToBeChosen);
     setText(currentQuestion)
 }) 
+
+var questionGrabber = function() {
+    fetch("./questions.json").then(response => {
+        return response.json();
+    }).then(data => console.log(data))
+} 
+
+questionGrabber()
