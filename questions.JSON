@@ -1,0 +1,19 @@
+{
+    "question": "This is question 1",
+    "options":[
+        "a",
+        "b",
+        "c"
+    ],
+    "correct": "a"
+}
+{
+    "question": "This is question 2",
+    "options":[
+        "a",
+        "b",
+        "c",
+        "d"
+    ],
+    "correct": "c"
+}

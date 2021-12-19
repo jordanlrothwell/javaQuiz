@@ -23,26 +23,38 @@
 // Score
     // Persists between sessions
 
+// PLACEHOLDER QUESTIONS
+// TODO: Organise these somewhere else, preferably in a JSON file
+var question1 = {
+    question: "is this a functioning object?",
+    options: ["yes", "no", "ayeeeeeee", "ducks"],
+    correct: 0
+}
+
+var question2 = {
+    question: "how about this one",
+    options: ["yeeeeees", "noooooooooo"],
+    correct: 1
+}
+
+var questions = [question1, question2]
+
+// Getting elements from the doc
 var questionEl = document.getElementById("question");
 var optionsEl = document.getElementById("options");
 var optionListEl = document.getElementById("optionList");
 const startButton = document.querySelector("button");
+var timerEl = document.getElementById("timer")
 
-const question1 = {
-    question: "is this a functioning object?",
-    options: ["yes", "no", "ayeeeeeee"],
-    correct: 0
+var t = 60;
+
+// Defining functions
+
+var chooseRandom = function(arr) {
+    return arr[Math.floor(Math.random() * arr.length)]
 }
 
-const question2 = {
-    question: "how about this one",
-    options: ["yeeeeees", "noooooooooo"],
-    correct: 0
-}
-
-questionEl.textContent = question1.question
-
-let questionAppender = function(chosenQuestion) {
+var questionAppender = function(chosenQuestion) {
     for (var i = 0; i < chosenQuestion.options.length; i++) {
         var newListElement = document.createElement("li");
         var optionText = document.createTextNode(chosenQuestion.options[i]);
@@ -51,8 +63,10 @@ let questionAppender = function(chosenQuestion) {
     }
 }
 
-startButton.addEventListener("click", function(){
-    questionAppender(question1);
-})
+var presentQuestion = function() {
+    var chosenQuestion = questions[Math.floor(Math.random() * (questions.length))]
+    questionEl.textContent = chosenQuestion.question;
+    questionAppender(chosenQuestion);
+}
 
-questionAppender(question2)
+presentQuestion()
