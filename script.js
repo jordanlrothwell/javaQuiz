@@ -25,12 +25,12 @@
 
 var questionEl = document.getElementById("question");
 var optionsEl = document.getElementById("options");
-var optionListEl = document.getElementById("optionList")
-
+var optionListEl = document.getElementById("optionList");
+const startButton = document.querySelector("button");
 
 const question1 = {
     question: "is this a functioning object?",
-    options: ["yes", "no"],
+    options: ["yes", "no", "ayeeeeeee"],
     correct: 0
 }
 
@@ -50,5 +50,9 @@ let questionAppender = function(chosenQuestion) {
         document.getElementById("optionList").appendChild(newListElement)
     }
 }
+
+startButton.addEventListener("click", function(){
+    questionAppender(question1);
+})
 
 questionAppender(question2)
