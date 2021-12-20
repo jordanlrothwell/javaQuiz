@@ -6,10 +6,19 @@ li:hover {
     background: grey;
 }
 
+
+/* Style correct answers on click*/
 .correct {
     background: green;
 }
 
+/* Style incorrect answers on click */
 .incorrect {
     background: red;
+}
+
+.post-question {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 2s, opacity 2s linear;
 }

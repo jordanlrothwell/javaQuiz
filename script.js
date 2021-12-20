@@ -123,6 +123,7 @@ var setOptionsText = function (Q) {
       );
       if (answerChecker(currentQuestion)) {
         this.classList.add("correct");
+        stopClock();
       } else {
         this.classList.add("incorrect");
       }
@@ -139,6 +140,7 @@ var killAllChildren = function (parent) {
 
 // Starts quiz cycle on start button click
 startButton.addEventListener("click", function () {
+  startClock();
   nextQuestion();
   setText(currentQuestion);
   killAllChildren(optionListEl);
@@ -146,17 +148,26 @@ startButton.addEventListener("click", function () {
 });
 
 // Timer
-var t = 5;
-var countdown = setInterval(function () {
-  if (t === 0) {
-    clearInterval(countdown);
-  }
-  timerEl.textContent = t;
-  t--;
-}, 1000);
+var t = 100;
+var countdown;
+
+var startClock = function() {
+  countdown = setInterval(function () {
+    if (t === 0) {
+      clearInterval(startClock);
+    }
+    timerEl.textContent = t;
+    t--;
+  }, 1000);
+} 
+
+// Stops the timer
+
+var stopClock = function () {
+  clearInterval(countdown)
+}
 
 // Check index of chosenOption against answer
-
 var answerChecker = function (Q) {
   if (selectedOption === questions[Q].answer) {
     return true;
