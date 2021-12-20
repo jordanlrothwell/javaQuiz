@@ -140,12 +140,13 @@ var setOptionsText = function (Q) {
         stopClock();
         changeTime(difficulty.moreTimeForCorrect);
         currentScore++;
-        this.classList.add("post-question")
+        rewindMiniClock();
         nextQuestionComing();
       } else {
         this.classList.add("incorrect");
         stopClock();
         changeTime(difficulty.lessTimeForIncorrect);
+        rewindMiniClock();
         nextQuestionComing();
       }
     });
@@ -166,7 +167,6 @@ var nextQuestion = function () {
   killAllChildren(optionListEl);
   setOptionsText(currentQuestion);
   howManyQuestions++;
-  rewindMiniClock();
 };
 
 // Starts quiz cycle on start button click
@@ -176,36 +176,39 @@ startButton.addEventListener("click", function () {
 
 // Timer declarations
 var t = difficulty.defaultTime;
-var t2 = 3;
+var t2;
 var countdown;
 var miniCountdown;
 
 var rewindMiniClock = function () {
-  t2 = difficulty.defaultBreakTime
-}
+  t2 = difficulty.defaultBreakTime;
+};
 
 // Starts the timer
 var startClock = function () {
+  timerEl.textContent = t;
   countdown = setInterval(function () {
-    if (t === 0) {
+    t--;
+    if (t !== 0) {
+      timerEl.textContent = t;
+    } else {
       clearInterval(countdown);
     }
-    timerEl.textContent = t;
-    t--;
   }, 1000);
 };
 
 // Starts miniCountdown between questions
 var nextQuestionComing = function () {
+  timer2El.textContent = t2;
   miniCountdown = setInterval(() => {
-    if (t2 === 0) {
-      clearInterval(miniCountdown);
-      timer2El.textContent = "";
-      nextQuestion();
-    }
-    timer2El.textContent = t2;
     t2--;
-  }, 1000);
+    if (t2 !== 0) {
+      timer2El.textContent = t2;
+    } else {
+      timer2El.textContent = "";
+      clearInterval(miniCountdown);
+      nextQuestion();
+  }}, 1000);
 };
 
 // Stops the countdown

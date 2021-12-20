@@ -24,9 +24,6 @@ li:hover {
 }
 
 .hidden {
-    display: none;
-}
-
-.visible {
-    display: contents;
+    visibility: hidden;
+    opacity: 0;
 }
