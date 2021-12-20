@@ -69,13 +69,27 @@ var optionListEl = document.getElementById("optionList");
 const startButton = document.getElementById("button1");
 const incrementButton = document.getElementById("button2");
 var timerEl = document.getElementById("timer");
+var timer2El = document.getElementById("timer2");
 
 // Arrays to keep track of current question + make sure we choose new questions
 var alreadyChosen = [];
 var currentQuestion = [];
 var yetToBeChosen = [];
 
+// Stores the index of the currently selected option
 var selectedOption;
+
+// Store the score
+var currentScore = 0;
+var howManyQuestions = 0;
+
+// Changes
+var difficulty = {
+  moreTimeForCorrect: 5,
+  lessTimeForIncorrect: -5,
+  defaultTime: 60,
+  defaultBreakTime: 3,
+};
 
 // Initialise array of indexes for every question in our question bank
 var initialiseYetToBeChosen = function () {
@@ -92,7 +106,7 @@ var chooseRandom = function (arr) {
 initialiseYetToBeChosen();
 
 // Moves indexes between arrays
-var nextQuestion = function () {
+var unseenQuestion = function () {
   var choice = chooseRandom(yetToBeChosen);
   if (currentQuestion.length !== 0) {
     alreadyChosen.push(currentQuestion[0]);
@@ -124,8 +138,15 @@ var setOptionsText = function (Q) {
       if (answerChecker(currentQuestion)) {
         this.classList.add("correct");
         stopClock();
+        changeTime(difficulty.moreTimeForCorrect);
+        currentScore++;
+        this.classList.add("post-question")
+        nextQuestionComing();
       } else {
         this.classList.add("incorrect");
+        stopClock();
+        changeTime(difficulty.lessTimeForIncorrect);
+        nextQuestionComing();
       }
     });
   }
@@ -138,34 +159,65 @@ var killAllChildren = function (parent) {
   }
 };
 
-// Starts quiz cycle on start button click
-startButton.addEventListener("click", function () {
+var nextQuestion = function () {
   startClock();
-  nextQuestion();
+  unseenQuestion();
   setText(currentQuestion);
   killAllChildren(optionListEl);
   setOptionsText(currentQuestion);
+  howManyQuestions++;
+  rewindMiniClock();
+};
+
+// Starts quiz cycle on start button click
+startButton.addEventListener("click", function () {
+  nextQuestion();
 });
 
-// Timer
-var t = 100;
+// Timer declarations
+var t = difficulty.defaultTime;
+var t2 = 3;
 var countdown;
+var miniCountdown;
 
-var startClock = function() {
+var rewindMiniClock = function () {
+  t2 = difficulty.defaultBreakTime
+}
+
+// Starts the timer
+var startClock = function () {
   countdown = setInterval(function () {
     if (t === 0) {
-      clearInterval(startClock);
+      clearInterval(countdown);
     }
     timerEl.textContent = t;
     t--;
   }, 1000);
-} 
+};
 
-// Stops the timer
+// Starts miniCountdown between questions
+var nextQuestionComing = function () {
+  miniCountdown = setInterval(() => {
+    if (t2 === 0) {
+      clearInterval(miniCountdown);
+      timer2El.textContent = "";
+      nextQuestion();
+    }
+    timer2El.textContent = t2;
+    t2--;
+  }, 1000);
+};
 
+// Stops the countdown
 var stopClock = function () {
-  clearInterval(countdown)
-}
+  clearInterval(countdown);
+};
+
+// Adds or removes time from countdown
+var changeTime = function (s) {
+  t = t + s;
+  timerEl.textContent = t;
+};
 
 // Check index of chosenOption against answer
 var answerChecker = function (Q) {
