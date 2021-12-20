@@ -25,44 +25,46 @@
 
 // PLACEHOLDER QUESTIONS
 // TODO: Organise these somewhere else, preferably in a JSON file
-var question1 = {
-  question: "is this a functioning object?",
-  options: ["yes", "no", "ayeeeeeee", "ducks"],
-  correct: 0,
-};
 
-var question2 = {
-  question: "how about this one",
-  options: ["yeeeeees", "noooooooooo"],
-  correct: 1,
-};
+const question1 = {
+  question: "this is the first question",
+  options: ["this is option 1", "this is option 2"],
+  answer: 0
+}
 
-var question3 = {
-  question: "this is another question",
-  options: ["boiiiiiiii", "noooooo", "my gawd"],
-  correct: 2,
-};
+const question2 = {
+  question: "this is the second question",
+  options: ["this is option 2.1", "this is option 2.2", "this is option 2.3"],
+  answer: 1
+}
 
-var question4 = {
-  question: "is this the",
-  options: ["real life", "thing i wanted to be doing today", "quickie mart"],
-  correct: 1,
-};
+const question3 = {
+  question: "this is the third question",
+  options: ["this is option 3.1", "this is option 3.2", "this is option 3.3", "this is option 3.4"],
+  answer: 2
+}
 
-var questions = [question1, question2, question3, question4];
+const question4 = {
+  question: "this is the fourth question",
+  options: ["this is option 4.1", "this is option 4.2", "this is option 4.3", "this is option 4.4", "this is option 4.5"],
+  answer: 4
+}
+
+const questions = [question1, question2, question3, question4]
 
 // Getting elements from the doc
 var questionEl = document.getElementById("question");
 var optionsEl = document.getElementById("options");
 var optionListEl = document.getElementById("optionList");
-const startButton = document.querySelector("button");
+const startButton = document.getElementById("button1");
+const incrementButton = document.getElementById("button2")
 var timerEl = document.getElementById("timer");
-
-var t = 60;
 
 var alreadyChosen = [];
 var currentQuestion = [];
 var yetToBeChosen = [];
+
+var t = 60;
 
 // Initialise array of indexes for every question in our question bank
 
@@ -94,29 +96,32 @@ var nextQuestion = function () {
   yetToBeChosen.splice(choice, 1);
 };
 
-var setText = function(Q) {
-    questionEl.textContent = questions[Q].question
-}
+// Set the question text content
+var setText = function (Q) {
+  questionEl.textContent = questions[Q].question;
+};
 
+// Set the options text content
 var setOptionsText = function (Q) {
-  for (var i = 0; i < Q.options.length; i++) {
+  for (var i = 0; i < questions[Q].options.length; i++) {
     var newListElement = document.createElement("li");
-    var optionText = document.createTextNode(Q.options[i]);
+    var optionText = document.createTextNode(questions[Q].options[i]);
     newListElement.appendChild(optionText);
     document.getElementById("optionList").appendChild(newListElement);
   }
 };
 
-startButton.addEventListener("click", function()
-{
-    nextQuestion();
-    setText(currentQuestion)
-}) 
+// Clears the current options
+var removeAllChildNodes = function (parent) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}
 
-var questionGrabber = function() {
-    fetch("./questions.json").then(response => {
-        return response.json();
-    }).then(data => console.log(data))
-} 
-
-questionGrabber()
+// Starts quiz cycle on start button click
+startButton.addEventListener("click", function () {
+  nextQuestion();
+  setText(currentQuestion);
+  removeAllChildNodes(document.querySelector("ul"));
+  setOptionsText(currentQuestion);
+});
