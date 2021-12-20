@@ -5,3 +5,11 @@ li {
 li:hover {
     background: grey;
 }
+
+.correct {
+    background: green;
+}
+
+.incorrect {
+    background: red;
+}

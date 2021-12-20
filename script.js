@@ -10,15 +10,15 @@
 // WHEN the game is over
 // THEN I can save my initials and my score
 
-  // Start button
+// Start button
 
 // Timer
 // Lose time if answer incorrect
 
-  // Questions
-  // Multiple choice
-  // Random
-  // Content = javascript
+// Questions
+// Multiple choice
+// Random
+// Content = javascript
 
 // Score
 // Persists between sessions
@@ -28,44 +28,54 @@
 const question1 = {
   question: "this is the first question",
   options: ["this is option 1", "this is option 2"],
-  answer: 0
-}
+  answer: 0,
+};
 
 const question2 = {
   question: "this is the second question",
   options: ["this is option 2.1", "this is option 2.2", "this is option 2.3"],
-  answer: 1
-}
+  answer: 1,
+};
 
 const question3 = {
   question: "this is the third question",
-  options: ["this is option 3.1", "this is option 3.2", "this is option 3.3", "this is option 3.4"],
-  answer: 2
-}
+  options: [
+    "this is option 3.1",
+    "this is option 3.2",
+    "this is option 3.3",
+    "this is option 3.4",
+  ],
+  answer: 2,
+};
 
 const question4 = {
   question: "this is the fourth question",
-  options: ["this is option 4.1", "this is option 4.2", "this is option 4.3", "this is option 4.4", "this is option 4.5"],
-  answer: 4
-}
+  options: [
+    "this is option 4.1",
+    "this is option 4.2",
+    "this is option 4.3",
+    "this is option 4.4",
+    "this is option 4.5",
+  ],
+  answer: 3,
+};
 
-const questions = [question1, question2, question3, question4]
+const questions = [question1, question2, question3, question4];
 
 // Getting elements from the doc
 var questionEl = document.getElementById("question");
 var optionsEl = document.getElementById("options");
 var optionListEl = document.getElementById("optionList");
 const startButton = document.getElementById("button1");
-const incrementButton = document.getElementById("button2")
+const incrementButton = document.getElementById("button2");
 var timerEl = document.getElementById("timer");
-
 
 // Arrays to keep track of current question + make sure we choose new questions
 var alreadyChosen = [];
 var currentQuestion = [];
 var yetToBeChosen = [];
 
-var selectedOptionText;
+var selectedOption;
 
 // Initialise array of indexes for every question in our question bank
 var initialiseYetToBeChosen = function () {
@@ -108,31 +118,49 @@ var setOptionsText = function (Q) {
     newListElement.appendChild(optionText);
     document.getElementById("optionList").appendChild(newListElement);
     newListElement.addEventListener("click", function () {
-    selectedOptionText = (this.textContent)
-  })
-}};
+      selectedOption = questions[currentQuestion].options.indexOf(
+        this.textContent
+      );
+      if (answerChecker(currentQuestion)) {
+        this.classList.add("correct");
+      } else {
+        this.classList.add("incorrect");
+      }
+    });
+  }
+};
 
 // Clears the current options
-var removeAllChildNodes = function (parent) {
+var killAllChildren = function (parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
-}
+};
 
 // Starts quiz cycle on start button click
 startButton.addEventListener("click", function () {
   nextQuestion();
   setText(currentQuestion);
-  removeAllChildNodes(document.querySelector("ul"));
+  killAllChildren(optionListEl);
   setOptionsText(currentQuestion);
 });
 
 // Timer
 var t = 5;
-var countdown = setInterval(function() {
+var countdown = setInterval(function () {
   if (t === 0) {
-    clearInterval(countdown)
+    clearInterval(countdown);
   }
   timerEl.textContent = t;
   t--;
-}, 1000)
+}, 1000);
+
+// Check index of chosenOption against answer
+
+var answerChecker = function (Q) {
+  if (selectedOption === questions[Q].answer) {
+    return true;
+  } else {
+    return false;
+  }
+};
