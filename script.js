@@ -10,21 +10,20 @@
 // WHEN the game is over
 // THEN I can save my initials and my score
 
-// Start button
+  // Start button
 
 // Timer
 // Lose time if answer incorrect
 
-// Questions
-// Multiple choice
-// Random
-// Content = javascript
+  // Questions
+  // Multiple choice
+  // Random
+  // Content = javascript
 
 // Score
 // Persists between sessions
 
 // PLACEHOLDER QUESTIONS
-// TODO: Organise these somewhere else, preferably in a JSON file
 
 const question1 = {
   question: "this is the first question",
@@ -60,14 +59,15 @@ const startButton = document.getElementById("button1");
 const incrementButton = document.getElementById("button2")
 var timerEl = document.getElementById("timer");
 
+
+// Arrays to keep track of current question + make sure we choose new questions
 var alreadyChosen = [];
 var currentQuestion = [];
 var yetToBeChosen = [];
 
-var t = 60;
+var selectedOptionText;
 
 // Initialise array of indexes for every question in our question bank
-
 var initialiseYetToBeChosen = function () {
   for (var i = 0; i < questions.length; i++) {
     yetToBeChosen = yetToBeChosen.concat(i);
@@ -75,7 +75,6 @@ var initialiseYetToBeChosen = function () {
 };
 
 // Function to choose index for given array
-
 var chooseRandom = function (arr) {
   return Math.floor(Math.random() * arr.length);
 };
@@ -108,8 +107,10 @@ var setOptionsText = function (Q) {
     var optionText = document.createTextNode(questions[Q].options[i]);
     newListElement.appendChild(optionText);
     document.getElementById("optionList").appendChild(newListElement);
-  }
-};
+    newListElement.addEventListener("click", function () {
+    selectedOptionText = (this.textContent)
+  })
+}};
 
 // Clears the current options
 var removeAllChildNodes = function (parent) {
@@ -125,3 +126,13 @@ startButton.addEventListener("click", function () {
   removeAllChildNodes(document.querySelector("ul"));
   setOptionsText(currentQuestion);
 });
+
+// Timer
+var t = 5;
+var countdown = setInterval(function() {
+  if (t === 0) {
+    clearInterval(countdown)
+  }
+  timerEl.textContent = t;
+  t--;
+}, 1000)
