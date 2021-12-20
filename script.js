@@ -70,6 +70,7 @@ const startButton = document.getElementById("button1");
 const incrementButton = document.getElementById("button2");
 var timerEl = document.getElementById("timer");
 var timer2El = document.getElementById("timer2");
+const scoreEl = document.getElementById("score");
 
 // Arrays to keep track of current question + make sure we choose new questions
 var alreadyChosen = [];
@@ -87,7 +88,7 @@ var howManyQuestions = 0;
 var difficulty = {
   moreTimeForCorrect: 5,
   lessTimeForIncorrect: -5,
-  defaultTime: 60,
+  defaultTime: 15,
   defaultBreakTime: 3,
 };
 
@@ -140,6 +141,7 @@ var setOptionsText = function (Q) {
         stopClock();
         changeTime(difficulty.moreTimeForCorrect);
         currentScore++;
+        scoreEl.textContent = currentScore;
         rewindMiniClock();
         nextQuestionComing();
       } else {
@@ -169,8 +171,9 @@ var nextQuestion = function () {
   howManyQuestions++;
 };
 
-// Starts quiz cycle on start button click
+// Starts quiz cycle on start button click (and removes the button)
 startButton.addEventListener("click", function () {
+  startButton.remove();
   nextQuestion();
 });
 
@@ -180,19 +183,29 @@ var t2;
 var countdown;
 var miniCountdown;
 
+// Re-initialises the miniCountdown
 var rewindMiniClock = function () {
   t2 = difficulty.defaultBreakTime;
 };
 
+var gameOver = function () {
+  scoreEl.textContent = currentScore;
+  scoreEl.style.color = "blue";
+}
+
 // Starts the timer
 var startClock = function () {
   timerEl.textContent = t;
+  scoreEl.textContent = currentScore;
   countdown = setInterval(function () {
     t--;
     if (t !== 0) {
       timerEl.textContent = t;
+      scoreEl.textContent = currentScore;
     } else {
+      timerEl.textContent = "";
       clearInterval(countdown);
+      gameOver();
     }
   }, 1000);
 };
@@ -211,7 +224,7 @@ var nextQuestionComing = function () {
   }}, 1000);
 };
 
-// Stops the countdown
+// Stops the main countdown
 var stopClock = function () {
   clearInterval(countdown);
 };
@@ -230,3 +243,4 @@ var answerChecker = function (Q) {
     return false;
   }
 };
+
