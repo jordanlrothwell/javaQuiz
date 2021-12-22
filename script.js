@@ -244,3 +244,15 @@ var answerChecker = function (Q) {
   }
 };
 
+// Store score in local storage
+var NUMBER_OF_HIGH_SCORES = 10;
+var HIGH_SCORES = 'highScores';
+
+var highScoreString = localStorage.getItem(HIGH_SCORES);
+var highScores = JSON.parse(highScoreString) ?? [];
+
+var lowestScore = highScores[NUMBER_OF_HIGH_SCORES - 1]?.score ?? 0;
+
+var getInitials = function () {
+  prompt('Enter your initials:');
+} 
