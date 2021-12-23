@@ -40,12 +40,9 @@ var questionEl = document.getElementById("question");
 var optionsEl = document.getElementById("options");
 var optionListEl = document.getElementById("optionList");
 const startButton = document.getElementById("button1");
-const bonusTime = document.getElementById("bonusTime");
-const penalty = document.getElementById("penalty");
 const restartButton = document.getElementById("button2");
 const highScoreHeading = document.getElementById("highScoreHeading")
 const timerEl = document.getElementById("timer");
-const timer2El = document.getElementById("timer2");
 const scoreEl = document.getElementById("score");
 
 // Arrays to keep track of current question + make sure we choose new questions
@@ -101,10 +98,6 @@ var setText = function (Q) {
   questionEl.textContent = questions[Q].question;
 };
 
-var bonusTimeFlash = function () {
-  bonusTime.innerText = "+ " + bonusTime;
-}
-
 // Set the options text content
 var setOptionsText = function (Q) {
   for (var i = 0; i < questions[Q].options.length; i++) {
@@ -121,7 +114,6 @@ var setOptionsText = function (Q) {
         stopClock();
         changeTime(difficulty.bonusTime);
         currentScore++;
-        bonusTimeFlash();
         scoreEl.textContent = currentScore;
         rewindMiniClock();
         nextQuestionComing();
@@ -191,13 +183,10 @@ var startClock = function () {
 
 // Starts miniCountdown between questions
 var nextQuestionComing = function () {
-  timer2El.textContent = t2;
   miniCountdown = setInterval(() => {
+    if (t2 > 0) {
     t2--;
-    if (t2 !== 0) {
-      timer2El.textContent = t2;
     } else {
-      timer2El.textContent = "";
       clearInterval(miniCountdown);
       nextQuestion();
     }

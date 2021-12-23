@@ -10,24 +10,25 @@
 <body>
     <header>
         <h1>JavaScriz</h1>
+    </header>
+    <section>
         <h2 id="highScoreHeading" class="hidden">HIGH SCORES</h2>
         <ol id="highScores"></ol>
-    </header>
+    </section>
     <main>
-        <button type="button" id = "button1">START</button>
-        <button type="button" id = "button2" class="hidden">AGAIN?</button>
-        <div id="score"></div>
-        <div id="bonusTime" class="fade"></div>
-        <div id="penalty" class="fade"></div>
-        <div id="timer"></div>
-        <div id="timer2"></div>
-        <div class="question">
-            <h2 id="question"></h2>
+        <div class="questionBox">
+            <p id="question"></p>
         </div> 
-        <div class="options">
+        <div class="optionBox">
             <ul id="optionList"></ul>
         </div>
     </main>
+    <footer>
+        <button type="button" id = "button1">START</button>
+        <button type="button" id = "button2" class="hidden">AGAIN?</button>
+        <div id="score"></div>
+        <div id="timer"></div>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
