@@ -1,30 +1,3 @@
-// GIVEN I am taking a code quiz
-// WHEN I click the start button
-// THEN a timer starts and I am presented with a question
-// WHEN I answer a question
-// THEN I am presented with another question
-// WHEN I answer a question incorrectly
-// THEN time is subtracted from the clock
-// WHEN all questions are answered or the timer reaches 0
-// THEN the game is over
-// WHEN the game is over
-// THEN I can save my initials and my score
-
-// Start button
-
-// Timer
-// Lose time if answer incorrect
-
-// Questions
-// Multiple choice
-// Random
-// Content = javascript
-
-// Score
-// Persists between sessions
-
-// PLACEHOLDER QUESTIONS
-
 const question1 = {
   question: "this is the first question",
   options: ["this is option 1", "this is option 2"],
@@ -67,9 +40,12 @@ var questionEl = document.getElementById("question");
 var optionsEl = document.getElementById("options");
 var optionListEl = document.getElementById("optionList");
 const startButton = document.getElementById("button1");
-const incrementButton = document.getElementById("button2");
-var timerEl = document.getElementById("timer");
-var timer2El = document.getElementById("timer2");
+const bonusTime = document.getElementById("bonusTime");
+const penalty = document.getElementById("penalty");
+const restartButton = document.getElementById("button2");
+const highScoreHeading = document.getElementById("highScoreHeading")
+const timerEl = document.getElementById("timer");
+const timer2El = document.getElementById("timer2");
 const scoreEl = document.getElementById("score");
 
 // Arrays to keep track of current question + make sure we choose new questions
@@ -82,13 +58,13 @@ var selectedOption;
 
 // Store the score
 var currentScore = 0;
-var howManyQuestions = 0;
+var playerInitials;
 
 // Changes
 var difficulty = {
-  moreTimeForCorrect: 5,
-  lessTimeForIncorrect: -5,
-  defaultTime: 15,
+  bonusTime: 5,
+  penalty: -5,
+  defaultTime: 60,
   defaultBreakTime: 3,
 };
 
@@ -125,6 +101,10 @@ var setText = function (Q) {
   questionEl.textContent = questions[Q].question;
 };
 
+var bonusTimeFlash = function () {
+  bonusTime.innerText = "+ " + bonusTime;
+}
+
 // Set the options text content
 var setOptionsText = function (Q) {
   for (var i = 0; i < questions[Q].options.length; i++) {
@@ -139,17 +119,22 @@ var setOptionsText = function (Q) {
       if (answerChecker(currentQuestion)) {
         this.classList.add("correct");
         stopClock();
-        changeTime(difficulty.moreTimeForCorrect);
+        changeTime(difficulty.bonusTime);
         currentScore++;
+        bonusTimeFlash();
         scoreEl.textContent = currentScore;
         rewindMiniClock();
         nextQuestionComing();
       } else {
         this.classList.add("incorrect");
         stopClock();
-        changeTime(difficulty.lessTimeForIncorrect);
-        rewindMiniClock();
-        nextQuestionComing();
+        if (t > Math.abs(difficulty.penalty)) {
+          changeTime(difficulty.penalty);
+          rewindMiniClock();
+          nextQuestionComing();
+        } else {
+          gameOver();
+        }
       }
     });
   }
@@ -168,7 +153,6 @@ var nextQuestion = function () {
   setText(currentQuestion);
   killAllChildren(optionListEl);
   setOptionsText(currentQuestion);
-  howManyQuestions++;
 };
 
 // Starts quiz cycle on start button click (and removes the button)
@@ -187,11 +171,6 @@ var miniCountdown;
 var rewindMiniClock = function () {
   t2 = difficulty.defaultBreakTime;
 };
-
-var gameOver = function () {
-  scoreEl.textContent = currentScore;
-  scoreEl.style.color = "blue";
-}
 
 // Starts the timer
 var startClock = function () {
@@ -221,7 +200,8 @@ var nextQuestionComing = function () {
       timer2El.textContent = "";
       clearInterval(miniCountdown);
       nextQuestion();
-  }}, 1000);
+    }
+  }, 1000);
 };
 
 // Stops the main countdown
@@ -245,14 +225,66 @@ var answerChecker = function (Q) {
 };
 
 // Store score in local storage
-var NUMBER_OF_HIGH_SCORES = 10;
-var HIGH_SCORES = 'highScores';
+const NO_OF_HIGH_SCORES = 10;
+const HIGH_SCORES = 'highScores';
+const highScoreString = localStorage.getItem(HIGH_SCORES);
+const highScores = JSON.parse(highScoreString) ?? [];
+var checkHighScore = function(currentScore) {
+  const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) ?? [];
+  const lowestScore = highScores[NO_OF_HIGH_SCORES - 1]?.currentScore ?? 0;
+  
+  if (currentScore > lowestScore) {
+    saveHighScore(currentScore, highScores);
+    showHighScores();
+  }
+}
 
-var highScoreString = localStorage.getItem(HIGH_SCORES);
-var highScores = JSON.parse(highScoreString) ?? [];
+const gameOver = function () {
+  stopClock();
+  revealRestartButton();
+  checkHighScore(currentScore);
+}
 
-var lowestScore = highScores[NUMBER_OF_HIGH_SCORES - 1]?.score ?? 0;
+var revealHighScore = function () {
+  highScoreHeading.setAttribute("style", "display: block")
+}
 
-var getInitials = function () {
-  prompt('Enter your initials:');
-} 
+var revealRestartButton = function () {
+  restartButton.setAttribute("style", "display: block")
+}
+
+function saveHighScore(currentScore, highScores) {
+  const name = prompt('You got a highscore! Enter name:');
+  const newScore = { currentScore, name };
+
+  highScores.push(newScore);
+  highScores.sort((a, b) => b.currentScore - a.currentScore);
+  highScores.splice(NO_OF_HIGH_SCORES);
+  localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
+}
+  
+
+var showHighScores = function () {
+  const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) ?? [];
+  const highScoreList = document.getElementById(HIGH_SCORES);
+  
+  highScoreList.innerHTML = highScores
+    .map((currentScore) => `<li>${currentScore.currentScore} - ${currentScore.name}`)
+    .join('');
+}
+
+var hideHighScores = function () {
+  const highScoreList = document.getElementById(HIGH_SCORES);
+  highScoreList.innerHTML = "";
+}
+
+restartButton.addEventListener("click", function () {
+  restartButton.setAttribute("style", "display: none");
+  alreadyChosen = [];
+  currentQuestion = [];
+  currentScore = 0;
+  t = difficulty.defaultTime;
+  hideHighScores();
+  initialiseYetToBeChosen();
+  nextQuestion();
+})
