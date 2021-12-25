@@ -142,7 +142,8 @@ const timerEl = document.getElementById("timer");
 const scoreText = document.getElementById("scoreText");
 const scoreEl = document.getElementById("score");
 const mainEl = document.getElementById("main")
-const questionBox = document.getElementsByClassName("questionBox")
+const questionBox = document.getElementsByClassName("questionBox");
+const initialTextBox = document.getElementById("initialTextBox")
 
 // Arrays to keep track of current question + make sure we choose new questions
 var alreadyChosen = [];
@@ -251,6 +252,7 @@ startButton.addEventListener("click", function () {
   startButton.remove();
   nextQuestion();
   revealFooterContent();
+  killAllChildren(initialTextBox)
 });
 
 // Timer declarations
