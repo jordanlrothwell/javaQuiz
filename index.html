@@ -13,22 +13,26 @@
             <h1>JavaScriz</h1>
         </header>
         <section>
-            <h2 id="highScoreHeading" class="hidden highScore">HIGH SCORES</h2>
+            <h2 id="highScoreHeading" class="hidden highScore"></h2>
             <ol id="highScores"></ol>
         </section>
         <main id="main">
             <div class="questionBox">
                 <p id="question" class="questions"></p>
-            </div> 
+            </div>
+            <button type="button" id = "button1">START</button>
+            <button type="button" id = "button2" class="hidden">AGAIN?</button>
             <div class="optionBox">
                 <ul id="optionList" class="options"></ul>
             </div>
         </main>
         <footer>
-            <button type="button" id = "button1">START</button>
-            <button type="button" id = "button2" class="hidden">AGAIN?</button>
-            <div id="score" class="hidden"></div>
-            <div id="timer" class="hidden"></div>
+            <div class="scoreAndTimerBox">
+                <p id="scoreText" class="hidden">Current score: </p>
+                <div id="score" class="hidden"></div>
+                <p id="timerText" class="hidden">Time remaining: </p>
+                <div id="timer" class="hidden"></div>
+            </div>
         </footer>
     </div>
     <script src="script.js"></script>

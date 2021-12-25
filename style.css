@@ -1,5 +1,12 @@
 body {
     background: #007bff;
+    display: flex;
+    justify-content: center;
+}
+
+ul, li {
+    margin: 0;
+    padding: 0;
 }
 
 .quizBox {
@@ -43,6 +50,7 @@ button {
     background: #007bff;
     border: 1px solid #007bff;
     line-height: 10px;
+    margin-bottom: 10px;
 }
 
 .hidden {
@@ -106,6 +114,14 @@ footer {
     justify-content: space-around;
 }
 
+.scoreAndTimerBox {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
 footer #timer {
     font-size: 18px;
     font-weight: 500;
@@ -118,6 +134,7 @@ footer #timer {
     background: #343a40;
     border: 1px solid #343a40;
     user-select: none;
+    margin-bottom: 10px;
 }
 
 footer #score {
@@ -132,30 +149,44 @@ footer #score {
     background: #343a40;
     border: 1px solid #343a40;
     user-select: none;
+    margin-bottom: 10px;
 }
 
-/* <body>
-    <header>
-        <h1>JavaScriz</h1>
-    </header>
-    <section>
-        <h2 id="highScoreHeading" class="hidden highScore">HIGH SCORES</h2>
-        <ol id="highScores"></ol>
-    </section>
-    <main>
-        <div class="questionBox">
-            <p id="question" class="questions"></p>
-        </div> 
-        <div class="optionBox">
-            <ul id="optionList" class="options"></ul>
-        </div>
-    </main>
-    <footer>
-        <button type="button" id = "button1">START</button>
-        <button type="button" id = "button2" class="hidden">AGAIN?</button>
-        <div id="score" class=""></div>
-        <div id="timer"></div>
-    </footer>
-    <script src="script.js"></script>
-</body>
-</html> */
+#scoreText {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 27px;
+}
+
+#timerText {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 27px;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#highScoreHeading {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.initials {
+    color: #007bff;
+    font-size: medium;
+    font-weight: 700;
+}
+
+.finalScore {
+    color: #36454F;
+    font-size: medium;
+    font-weight: 700;
+}
+
+#highScores li {
+    margin-bottom: 10px;
+}

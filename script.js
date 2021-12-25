@@ -33,7 +33,35 @@ const question4 = {
   answer: 3,
 };
 
-const questions = [question1, question2, question3, question4];
+const question5 = {
+  question: "this is the fifth question",
+  options: [
+    "this is option 4.1",
+    "this is option 4.2",
+    "this is option 4.3",
+    "this is option 4.4",
+    "this is option 4.5",
+    "this is option 4.6",
+  ],
+  answer: 4,
+};
+
+const question6 = {
+  question: "this is the SIXTH question",
+  options: [
+    "this is option 4.1",
+    "this is option 4.2",
+    "this is option 4.3",
+    "this is option 4.4",
+    "this is option 4.5",
+    "this is option 4.6",
+    "this is option 4.7",
+  ],
+  answer: 5,
+};
+
+
+const questions = [question1, question2, question3, question4, question5, question6];
 
 // Getting elements from the doc
 const questionEl = document.getElementById("question");
@@ -42,9 +70,13 @@ const optionListEl = document.getElementById("optionList");
 const startButton = document.getElementById("button1");
 const restartButton = document.getElementById("button2");
 const highScoreHeading = document.getElementById("highScoreHeading")
+const highScoreBox = document.getElementById("highScores")
+const timerText = document.getElementById("timerText");
 const timerEl = document.getElementById("timer");
+const scoreText = document.getElementById("scoreText");
 const scoreEl = document.getElementById("score");
 const mainEl = document.getElementById("main")
+const questionBox = document.getElementsByClassName("questionBox")
 
 // Arrays to keep track of current question + make sure we choose new questions
 var alreadyChosen = [];
@@ -60,10 +92,10 @@ var playerInitials;
 
 // Changes
 var difficulty = {
-  bonusTime: 5,
+  bonusTime: 0,
   penalty: -100,
   defaultTime: 60,
-  defaultBreakTime: 3,
+  defaultBreakTime: 0,
 };
 
 // Initialise array of indexes for every question in our question bank
@@ -152,8 +184,7 @@ var nextQuestion = function () {
 startButton.addEventListener("click", function () {
   startButton.remove();
   nextQuestion();
-  timerEl.classList.remove("hidden");
-  scoreEl.classList.remove("hidden");
+  revealFooterContent();
 });
 
 // Timer declarations
@@ -177,7 +208,7 @@ var startClock = function () {
       timerEl.textContent = t;
       scoreEl.textContent = currentScore;
     } else {
-      timerEl.textContent = "";
+      timerEl.textContent = "0";
       clearInterval(countdown);
       gameOver();
     }
@@ -240,6 +271,7 @@ const gameOver = function () {
 }
 
 const revealHighScore = function () {
+  highScoreHeading.textContent = "High Scores"
   highScoreHeading.setAttribute("style", "display: block")
 }
 
@@ -247,7 +279,15 @@ const revealRestartButton = function () {
   restartButton.setAttribute("style", "display: block")
 }
 
+const revealFooterContent = function () {
+  scoreText.classList.remove("hidden");
+  timerText.classList.remove("hidden");
+  timerEl.classList.remove("hidden");
+  scoreEl.classList.remove("hidden");
+}
+
 const saveHighScore = function (currentScore, highScores) {
+  revealHighScore();
   const name = prompt('You got a highscore! Enter name:');
   const newScore = { currentScore, name };
 
@@ -256,19 +296,18 @@ const saveHighScore = function (currentScore, highScores) {
   highScores.splice(NO_OF_HIGH_SCORES);
   localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
 }
-  
+
 const showHighScores = function () {
   const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) ?? [];
   const highScoreList = document.getElementById(HIGH_SCORES);
   
   highScoreList.innerHTML = highScores
-    .map((currentScore) => `<li>${currentScore.currentScore} - ${currentScore.name}`)
+    .map((currentScore) => `<li><span class="initials">${currentScore.name}:</span> <span class="finalScore">${currentScore.currentScore}</span>`)
     .join('');
 }
 
-const hideHighScores = function () {
-  const highScoreList = document.getElementById(HIGH_SCORES);
-  highScoreList.innerHTML = "";
+const hideHighScoreHeading = function () {
+  highScoreHeading.textContent = "";
 }
 
 restartButton.addEventListener("click", function () {
@@ -277,7 +316,8 @@ restartButton.addEventListener("click", function () {
   currentQuestion = [];
   currentScore = 0;
   t = difficulty.defaultTime;
-  hideHighScores();
+  killAllChildren(highScoreBox);
+  hideHighScoreHeading();
   initialiseYetToBeChosen();
   nextQuestion();
 })
