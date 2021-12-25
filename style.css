@@ -104,9 +104,16 @@ main {
     border: 1px solid #b8daff;
 }
 
+.questionBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .questions {
     font-size: 25px;
     font-weight: 400;
+    text-align: center;
 }
 
 footer {
@@ -173,6 +180,9 @@ section {
 #highScoreHeading {
     font-size: 20px;
     font-weight: 600;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
 }
 
 .initials {
