@@ -36,14 +36,15 @@ const question4 = {
 const questions = [question1, question2, question3, question4];
 
 // Getting elements from the doc
-var questionEl = document.getElementById("question");
-var optionsEl = document.getElementById("options");
-var optionListEl = document.getElementById("optionList");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const optionListEl = document.getElementById("optionList");
 const startButton = document.getElementById("button1");
 const restartButton = document.getElementById("button2");
 const highScoreHeading = document.getElementById("highScoreHeading")
 const timerEl = document.getElementById("timer");
 const scoreEl = document.getElementById("score");
+const mainEl = document.getElementById("main")
 
 // Arrays to keep track of current question + make sure we choose new questions
 var alreadyChosen = [];
@@ -151,6 +152,8 @@ var nextQuestion = function () {
 startButton.addEventListener("click", function () {
   startButton.remove();
   nextQuestion();
+  timerEl.classList.remove("hidden");
+  scoreEl.classList.remove("hidden");
 });
 
 // Timer declarations
@@ -213,7 +216,7 @@ var answerChecker = function (Q) {
   }
 };
 
-// Store score in local storage
+// Put score into local storage if within top 10
 const NO_OF_HIGH_SCORES = 10;
 const HIGH_SCORES = 'highScores';
 const highScoreString = localStorage.getItem(HIGH_SCORES);
@@ -232,17 +235,19 @@ const gameOver = function () {
   stopClock();
   revealRestartButton();
   checkHighScore(currentScore);
+  killAllChildren(questionEl);
+  killAllChildren(optionListEl);
 }
 
-var revealHighScore = function () {
+const revealHighScore = function () {
   highScoreHeading.setAttribute("style", "display: block")
 }
 
-var revealRestartButton = function () {
+const revealRestartButton = function () {
   restartButton.setAttribute("style", "display: block")
 }
 
-function saveHighScore(currentScore, highScores) {
+const saveHighScore = function (currentScore, highScores) {
   const name = prompt('You got a highscore! Enter name:');
   const newScore = { currentScore, name };
 
@@ -252,8 +257,7 @@ function saveHighScore(currentScore, highScores) {
   localStorage.setItem(HIGH_SCORES, JSON.stringify(highScores));
 }
   
-
-var showHighScores = function () {
+const showHighScores = function () {
   const highScores = JSON.parse(localStorage.getItem(HIGH_SCORES)) ?? [];
   const highScoreList = document.getElementById(HIGH_SCORES);
   
@@ -262,7 +266,7 @@ var showHighScores = function () {
     .join('');
 }
 
-var hideHighScores = function () {
+const hideHighScores = function () {
   const highScoreList = document.getElementById(HIGH_SCORES);
   highScoreList.innerHTML = "";
 }

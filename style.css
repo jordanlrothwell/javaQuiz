@@ -17,7 +17,7 @@ body {
     border-radius: 5px 5px 0 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.1);
 }
 
@@ -31,15 +31,18 @@ li {
 }
 
 button {
-    font-size: 25px;
-    font-weight: 500;
-    color: #007bff;
-    padding: 15px 30px;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    background: #fff;
+    height: 40px;
+    padding: 0 13px;
+    font-size: 18px;
+    font-weight: 400;
     cursor: pointer;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    background: #007bff;
+    border: 1px solid #007bff;
+    line-height: 10px;
 }
 
 .hidden {
@@ -98,20 +101,26 @@ main {
     font-weight: 400;
 }
 
-footer #timer {
-    color: #004085;
-    background: #cce5ff;
-    border: 1px solid #b8daff;
-    height: 45px;
-    padding: 0 8px;
-    border-radius: 5px;
+footer {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 145px;
+    justify-content: space-around;
 }
 
-footer #timer p {
+footer #timer {
+    font-size: 18px;
+    font-weight: 500;
+    height: 30px;
+    width: 45px;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 30px;
+    text-align: center;
+    background: #343a40;
+    border: 1px solid #343a40;
+    user-select: none;
+}
+
+footer #score {
     font-size: 18px;
     font-weight: 500;
     height: 30px;
