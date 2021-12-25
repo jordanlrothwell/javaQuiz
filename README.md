@@ -1,4 +1,4 @@
-# JavaSciz: A JavaScript Quiz
+# JavaScriz: A JavaScript Quiz
 
 ## Description
 

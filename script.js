@@ -160,7 +160,7 @@ var playerInitials;
 // Changes
 var difficulty = {
   bonusTime: 0,
-  penalty: -100,
+  penalty: -3,
   defaultTime: 60,
   defaultBreakTime: 0,
 };
