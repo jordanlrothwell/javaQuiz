@@ -1,26 +1,152 @@
-li {
-    border: 1px solid black;
+body {
+    background: #007bff;
 }
 
-li:hover {
-    background: grey;
+.quizBox {
+    width: 550px;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.quizBox header {
+    position: relative;
+    z-index: 2;
+    height: 70px;
+    padding: 0 30px;
+    background: #fff;
+    border-radius: 5px 5px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 3px 5px 1px rgba(0,0,0,0.1);
+}
+
+.quizBox header h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+li {
+    list-style: none;
+}
+
+button {
+    font-size: 25px;
+    font-weight: 500;
+    color: #007bff;
+    padding: 15px 30px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
 }
 
 .hidden {
     display: none;
 }
 
-/* Style correct answers on click*/
-.correct {
-    background: green;
-}
-
-/* Style incorrect answers on click */
-.incorrect {
-    background: red;
-}
-
 .fade {
     visibility: hidden;
     transition: visibility 0s 2s, linear;
 }
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.optionBox {
+    padding: 20px 0px;
+    display: block;   
+}
+
+.optionBox li {
+    background: aliceblue;
+    border: 1px solid #84c5fe;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 17px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.correct {
+    color: #155724 !important;
+    background: #d4edda !important;
+    border: 1px solid #c3e6cb !important;
+}
+
+.incorrect {
+    color: #721c24 !important;
+    background: #f8d7da !important;
+    border: 1px solid #f5c6cb !important;
+}
+
+.optionBox li:hover {
+    color: #004085;
+    background: #cce5ff;
+    border: 1px solid #b8daff;
+}
+
+.questions {
+    font-size: 25px;
+    font-weight: 400;
+}
+
+footer #timer {
+    color: #004085;
+    background: #cce5ff;
+    border: 1px solid #b8daff;
+    height: 45px;
+    padding: 0 8px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 145px;
+}
+
+footer #timer p {
+    font-size: 18px;
+    font-weight: 500;
+    height: 30px;
+    width: 45px;
+    color: #fff;
+    border-radius: 5px;
+    line-height: 30px;
+    text-align: center;
+    background: #343a40;
+    border: 1px solid #343a40;
+    user-select: none;
+}
+
+/* <body>
+    <header>
+        <h1>JavaScriz</h1>
+    </header>
+    <section>
+        <h2 id="highScoreHeading" class="hidden highScore">HIGH SCORES</h2>
+        <ol id="highScores"></ol>
+    </section>
+    <main>
+        <div class="questionBox">
+            <p id="question" class="questions"></p>
+        </div> 
+        <div class="optionBox">
+            <ul id="optionList" class="options"></ul>
+        </div>
+    </main>
+    <footer>
+        <button type="button" id = "button1">START</button>
+        <button type="button" id = "button2" class="hidden">AGAIN?</button>
+        <div id="score" class=""></div>
+        <div id="timer"></div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html> */

@@ -1,5 +1,5 @@
 const question1 = {
-  question: "this is the first question",
+  question: "this is the first questionthis is the first questionthis is the first questionthis is the first questionthis is the first questionthis is the first question",
   options: ["this is option 1", "this is option 2"],
   answer: 0,
 };
@@ -60,7 +60,7 @@ var playerInitials;
 // Changes
 var difficulty = {
   bonusTime: 5,
-  penalty: -5,
+  penalty: -100,
   defaultTime: 60,
   defaultBreakTime: 3,
 };
